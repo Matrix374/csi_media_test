@@ -30,6 +30,27 @@ namespace csi_media_test.Controllers
             return View();
         }
 
+        public async Task<String> GetNumberService(){
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync("https://localhost:5001/Number/GetAllNumbers/");
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    Debug.WriteLine(responseBody);
+                    return responseBody;
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(String.Format("Message :{0}", e.Message));
+            }
+
+            return null;
+        }
+
         public IActionResult Privacy()
         {
             return View();

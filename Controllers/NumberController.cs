@@ -50,5 +50,28 @@ namespace csi_media_test.Controllers
             return JsonSerializer.Serialize(array);
         }
 
+        [HttpPost]
+        public IActionResult PostNumbers([FromBody] SortedNumModel data)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid Data");
+
+            //Convert SortedNumModel to DBO_SortedNumModel
+            DBO_SortedNumModel db_data = _databaseService.ConvertToDBO(data);
+            //save SortedNum to database
+            try
+            {
+                Debug.WriteLine(db_data);
+                Debug.WriteLine(JsonSerializer.Serialize(db_data));
+                _dbContext.SortedNumModel.Add(db_data);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return Ok();
+        }
     }
 }

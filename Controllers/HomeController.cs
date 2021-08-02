@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Text.Json;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using csi_media_test.Logic;
 using csi_media_test.Models;
 using csi_media_test.Data;
 
@@ -16,6 +16,7 @@ namespace csi_media_test.Controllers
     {
         private readonly csiDBContext _dbContext;
         private readonly ILogger<HomeController> _logger;
+        public NumberLogic _numberLogic = new NumberLogic();
 
         public HomeController(ILogger<HomeController> logger, csiDBContext context)
         {
@@ -60,6 +61,45 @@ namespace csi_media_test.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async void OnPost(){
+            int numbers = Convert.ToInt32(Request.Form["number_input"]);
+            string sortType = Request.Form["sort_type_input"];
+            int[] sortedNum;
+
+            if(sortType == "Ascending")
+            {
+                sortedNum = _numberLogic.SortNumbersAscending(numbers);
+            } else if(sortType == "Descending")
+            {
+                sortedNum = _numberLogic.SortNumbersDescending(numbers);
+            } else{
+                sortedNum = null;
+                throw new Exception("No SortType");
+            }
+
+            SortedNumModel data = new SortedNumModel{
+                Number = sortedNum,
+                SortType = sortType
+            };
+
+            try
+            {
+                var content = JsonSerializer.Serialize(data);
+                var buffer = System.Text.Encoding.UTF8.GetBytes(content);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                using (var client = new HttpClient())
+                {
+                    HttpResponseMessage result = await client.PostAsync("https://localhost:5001/Number/PostNumbers/", byteContent);
+                    result.EnsureSuccessStatusCode();
+                }
+            } catch (HttpRequestException e) 
+            {
+                Console.WriteLine(String.Format("Message :{0}", e.Message));
+            }
         }
     }
 }

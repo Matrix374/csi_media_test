@@ -65,7 +65,7 @@ namespace csi_media_test.Controllers
                 Debug.WriteLine(JsonSerializer.Serialize(db_data));
                 _dbContext.SortedNumModel.Add(db_data);
                 _dbContext.SaveChanges();
-                Debug.WriteLine(String.Format("Saved {0}, {1}", data.Number, data.SortType);
+                Debug.WriteLine(String.Format("Saved {0}, {1}", data.Number, data.SortType));
             }
             catch (Exception e)
             {

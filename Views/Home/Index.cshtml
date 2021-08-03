@@ -1,5 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    string Message = "";
+
+    if(ViewData["Success"] is bool)
+    {
+        if((bool)ViewData["Success"])
+        {
+            Message = "Number Saved Successfully to Database";
+        } else {
+            Message = "Failed to Save Number";
+        }
+    }
 }
 
 <div class="text-center">
@@ -19,5 +30,5 @@
         <input type="submit" value="Submit" />
     }
 
-    <p>@ViewData["numbers"]</p>
+    <p>@Message</p>
 </div>

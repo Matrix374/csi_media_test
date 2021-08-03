@@ -93,10 +93,11 @@ namespace csi_media_test.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async void OnPost(){
+        public async Task<IActionResult> OnPost(){
             int numbers = Convert.ToInt32(Request.Form["number_input"]);
             string sortType = Request.Form["sort_type_input"];
             int[] sortedNum;
+            ViewData["Success"] = false;
 
             if(sortType == "Ascending")
             {
@@ -125,11 +126,16 @@ namespace csi_media_test.Controllers
                 {
                     HttpResponseMessage result = await client.PostAsync("https://localhost:5001/Number/PostNumbers/", byteContent);
                     result.EnsureSuccessStatusCode();
+
+                    ViewData["Success"] = true;
                 }
             } catch (HttpRequestException e) 
             {
                 Console.WriteLine(String.Format("Message :{0}", e.Message));
             }
+            
+            return View("Index");
+        }
         }
     }
 }

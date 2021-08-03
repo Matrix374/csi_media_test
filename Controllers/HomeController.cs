@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -45,46 +46,12 @@ namespace csi_media_test.Controllers
             return View("NumbersJSON");
         }
 
-        public async Task<String> GetNumberService(){
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync("https://localhost:5001/Number/GetAllNumbers/");
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    Debug.WriteLine(responseBody);
-                    return responseBody;
-                }
-            }
-            catch (HttpRequestException e)
-            {
-                Console.WriteLine(String.Format("Message :{0}", e.Message));
-            }
-
-            return null;
+        private async Task<String> GetNumberService(){
+            return await GetCall("https://localhost:5001/Number/GetAllNumbers/");
         }
 
-        public async Task<String> GetNumberService(int id){
-            try
-            {
-                using (var client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync("https://localhost:5001/Number/GetNumbers/" + id);
-                    response.EnsureSuccessStatusCode();
-                    string responseBody = await response.Content.ReadAsStringAsync();
-
-                    Debug.WriteLine(responseBody);
-                    return responseBody;
-                }
-            }
-            catch (HttpRequestException e)
-            {
-                Console.WriteLine(String.Format("Message :{0}", e.Message));
-            }
-
-            return null;
+        private async Task<String> GetNumberService(int id){
+            return await GetCall("https://localhost:5001/Number/GetNumbers/" + id);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -136,6 +103,27 @@ namespace csi_media_test.Controllers
             
             return View("Index");
         }
+
+        private async Task<string> GetCall(string url)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    Debug.WriteLine(responseBody);
+                    return responseBody;
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(String.Format("Message :{0}", e.Message));
+            }
+
+            return null;
         }
     }
 }

@@ -3,14 +3,18 @@
 2. dotnet build
 3. dotnet run
 
-# Endpoints
 
+# Pages
+Home/RetrieveNumber/{id}
+Home/RetrieveAllNumbers
+
+# Endpoints
 ## GET
-GetNumbers
-GetAllNumbers
+Number/GetNumber/{id}
+Number/GetAllNumbers
 
 ## POST
-PostNumbers
+Number/PostNumbers
 
 # Other Notes
 

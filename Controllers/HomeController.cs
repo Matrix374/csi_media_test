@@ -31,12 +31,47 @@ namespace csi_media_test.Controllers
             return View();
         }
 
+        public async Task<IActionResult> RetrieveAllNumbers()
+        {
+            var data = await GetNumberService();
+            ViewData["numbers"] = data;
+            return View("NumbersJSON");
+        }
+
+        public async Task<IActionResult> RetrieveNumber(int id)
+        {
+            var data = await GetNumberService(id);
+            ViewData["numbers"] = data;
+            return View("NumbersJSON");
+        }
+
         public async Task<String> GetNumberService(){
             try
             {
                 using (var client = new HttpClient())
                 {
                     HttpResponseMessage response = await client.GetAsync("https://localhost:5001/Number/GetAllNumbers/");
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    Debug.WriteLine(responseBody);
+                    return responseBody;
+                }
+            }
+            catch (HttpRequestException e)
+            {
+                Console.WriteLine(String.Format("Message :{0}", e.Message));
+            }
+
+            return null;
+        }
+
+        public async Task<String> GetNumberService(int id){
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync("https://localhost:5001/Number/GetNumbers/" + id);
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
 

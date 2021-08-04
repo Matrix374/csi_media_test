@@ -2,19 +2,21 @@
 1. dotnet restore
 2. dotnet build
 3. dotnet run
-
+   
+Database Content can be viewed on the `Home/RetrieveAllNumbers` page
+There's no access to `Home/RetrieveNumber/{id}` outside of through the url
 
 # Pages
-Home/RetrieveNumber/{id}
-Home/RetrieveAllNumbers
+`Home/RetrieveNumber/{id}`
+`Home/RetrieveAllNumbers`
 
 # Endpoints
 ## GET
-Number/GetNumber/{id}
-Number/GetAllNumbers
+`Number/GetNumber/{id}`
+`Number/GetAllNumbers`
 
 ## POST
-Number/PostNumbers
+`Number/PostNumbers`
 
 # Other Notes
 
@@ -29,3 +31,8 @@ Number/PostNumbers
 ## Assumptions
 1. Numbers must be integers
 2. Numbers are stored as strings in Database separated by ","
+
+## Possible Extensions in the Future
+1. List all Numbers from the Database in a Table which the user can click to send them to `Home/RetrieveNumber/{id}`
+2. Form Validation
+3. Time Taken Diagnostics

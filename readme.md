@@ -3,7 +3,7 @@
 2. dotnet build
 3. dotnet run
    
-Database Content can be viewed on the `Home/RetrieveAllNumbers` page
+Database Content can be viewed on the `Home/RetrieveAllNumbers` page or using a SQLite Browser
 There's no access to `Home/RetrieveNumber/{id}` outside of through the url
 
 # Pages

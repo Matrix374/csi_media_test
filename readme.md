@@ -4,19 +4,19 @@
 3. dotnet run
    
 Database Content can be viewed on the `Home/RetrieveAllNumbers` page or using a SQLite Browser
-There's no access to `Home/RetrieveNumber/{id}` outside of through the url
+There's no access to `Home/RetrieveNumber/{id}` unless you type it in the url
 
 # Pages
-`Home/RetrieveNumber/{id}`
-`Home/RetrieveAllNumbers`
+- `Home/RetrieveNumber/{id}`
+- `Home/RetrieveAllNumbers`
 
 # Endpoints
 ## GET
-`Number/GetNumber/{id}`
-`Number/GetAllNumbers`
+- `Number/GetNumber/{id}`
+- `Number/GetAllNumbers`
 
 ## POST
-`Number/PostNumbers`
+- `Number/PostNumbers`
 
 # Other Notes
 
@@ -33,6 +33,7 @@ There's no access to `Home/RetrieveNumber/{id}` outside of through the url
 2. Numbers are stored as strings in Database separated by ","
 
 ## Possible Extensions in the Future
-1. List all Numbers from the Database in a Table which the user can click to send them to `Home/RetrieveNumber/{id}`
-2. Form Validation
-3. Time Taken Diagnostics
+1. Refactors (Removing repeated code and making sure that code sticks to their relevant files/classes following SOLID Principles)
+3. List all Numbers from the Database in a Table which the user can click to send them to `Home/RetrieveNumber/{id}`
+4. Form Validation
+5. Time Taken Diagnostics
